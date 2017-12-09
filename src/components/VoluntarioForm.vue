@@ -1,7 +1,7 @@
 <template>
-	<el-container>
+	<el-container class="content">
 		<el-header>
-			<p id="header">Cadastro de voluntário</p>
+			<p id="header">Cadastro de Voluntário</p>
 		</el-header>
 	
 		<el-main class="main">
@@ -91,7 +91,7 @@
 							label="Email"
 							:rules="[
 								{ required: true, message: 'Email não pode estar vazio' },
-								{ type: 'email', message: 'Por favor insira um email válido', trigger: 'blur,change' }
+								{ type: 'email', message: 'Por favor insira um email válido', trigger: 'blur' }
 							]">
 							<el-input v-model="voluntario.email"></el-input>
 						</el-form-item>
@@ -300,6 +300,11 @@ export default {
 	padding: 20px;
 	border: 1px solid #D8DCE5;
 	border-radius: 10px;
+	background-color: #FCFCFC;
+}
+
+.content {
+    background-color: white;
 }
 
 #header {
