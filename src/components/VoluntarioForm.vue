@@ -241,7 +241,7 @@
 						</el-form-item>
 
 						<el-form-item>
-							<el-button icon="el-icon-check" type="primary" @click="submitForm('dynamicValidateForm')">Finalizar</el-button>
+							<el-button icon="el-icon-check" type="primary" @click="submitForm('voluntario')">Finalizar</el-button>
 							<el-button icon="el-icon-close">Cancelar</el-button>
 						</el-form-item>
 					</el-form>
@@ -279,7 +279,7 @@ export default {
 		}
 	},
 	methods: {
-		submitForm(formName) {
+		submitForm(voluntario) {
 			this.$refs[voluntario].validate((valid) => {
 				if (valid) {
 					console.log('valid')
