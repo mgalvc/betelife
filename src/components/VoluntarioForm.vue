@@ -21,7 +21,7 @@
 									<el-input v-model="voluntario.nome"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :span="8">
+							<el-col :span="6">
 								<el-form-item
 								label="Data de nascimento"
 								prop="nascimento"
@@ -29,7 +29,16 @@
 										required: true, message: 'Data não pode estar vazia'
 									}"
 								>
-									<el-date-picker format="dd-MM-yyyy" type="date" v-model="voluntario.nascimento" style="width: 100%;"></el-date-picker>
+									<el-date-picker format="dd/MM/yyyy" type="date" v-model="voluntario.nascimento" style="width: 100%;"
+										@change="calcAge()"></el-date-picker>
+								</el-form-item>
+							</el-col>
+							<el-col :span="2">
+								<el-form-item
+									label="Idade"
+									prop="idade"
+								>
+									<el-input v-model="voluntario.idade" :disabled="true"></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
@@ -205,8 +214,8 @@
 
 						<el-form-item label="Se submete facilmente?" style="display: inline-block;">
 							<el-radio-group v-model="voluntario.submete">
-								<el-radio :label="0">Sim</el-radio>
-								<el-radio :label="1">Não</el-radio>
+								<el-radio :label="1">Sim</el-radio>
+								<el-radio :label="0">Não</el-radio>
 							</el-radio-group>
 						</el-form-item>
 
@@ -242,7 +251,6 @@
 
 						<el-form-item>
 							<el-button icon="el-icon-check" type="primary" @click="submitForm('voluntario')">Finalizar</el-button>
-							<el-button icon="el-icon-close">Cancelar</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
@@ -257,15 +265,8 @@ export default {
 	data() {
 		return {
 			voluntario: {
-				nome: '',
-				submete: 0,
-				idade: 18,
-				nascimento: '',
-				escolaridade: '',
-				email: '',
-				medicamento_usa: false,
-				acompanhamento: false,
-				experiencia: false
+				submete: 1,
+				idade: '',
 			},
 			escolaridades: [
 				"Nenhuma",
@@ -283,11 +284,27 @@ export default {
 			this.$refs[voluntario].validate((valid) => {
 				if (valid) {
 					console.log('valid')
+					console.log(this.voluntario)
 				} else {
 					console.log('invalid')
 					return false
 				}
 			})
+		},
+		calcAge() {
+			let now = new Date()
+
+			this.voluntario.idade = now.getFullYear() - this.voluntario.nascimento.getFullYear()
+
+			if (this.voluntario.nascimento.getMonth() > now.getMonth()) {
+				this.voluntario.idade--
+			}
+
+			if (this.voluntario.nascimento.getMonth() == now.getMonth()) {
+				if (this.voluntario.nascimento.getDate() > now.getDate()) {
+					this.voluntario.idade--
+				}
+			}
 		}
 	}
 }

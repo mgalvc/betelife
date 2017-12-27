@@ -10,7 +10,7 @@
 				<el-col :span="16">
 					<el-form :model="aluno" ref="aluno" class="form">
 						<el-row :gutter="15">
-							<el-col :span="16">
+							<el-col :span="12">
 								<el-form-item
 									label="Nome"
 									prop="nome"
@@ -21,7 +21,7 @@
 									<el-input v-model="aluno.nome"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :span="8">
+							<el-col :span="6">
 								<el-form-item
 								label="Data de nascimento"
 								prop="nascimento"
@@ -29,7 +29,36 @@
 										required: true, message: 'Data não pode estar vazia'
 									}"
 								>
-									<el-date-picker format="dd-MM-yyyy" type="date" v-model="aluno.nascimento" style="width: 100%;"></el-date-picker>
+									<el-date-picker format="dd/MM/yyyy" type="date" v-model="aluno.nascimento" style="width: 100%;" @change="calcAge()"></el-date-picker>
+								</el-form-item>
+							</el-col>
+							<el-col :span="2">
+								<el-form-item
+									label="Idade"
+									prop="idade"
+								>
+									<el-input v-model="aluno.idade" :disabled="true"></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="4">
+								<el-form-item 
+								label="Camisa"
+								>
+									<el-select 
+										v-model="aluno.tamanho_camisa" 
+										style="width: 100%;"
+										:clearable="false"
+										filterable
+										allow-create
+										default-first-option
+									>
+										<el-option
+											v-for="item in tamanho_camisa"
+											:key="item"
+											:label="item"
+											:value="item"
+										></el-option>
+									</el-select>
 								</el-form-item>
 							</el-col>
 						</el-row>
@@ -175,6 +204,78 @@
 								</el-form-item>
 							</el-col>
 						</el-row>
+
+						<el-row :gutter="15">
+							<el-col :span="16">
+								<el-form-item 
+									label="Escola em que está matriculado(a)"
+									prop="escola"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.escola"></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="8">
+								<el-form-item 
+									label="Série"
+									prop="serie"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.serie"></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+
+						<el-form-item>
+							<el-checkbox v-model="aluno.repetente">É repetente</el-checkbox>
+							<el-checkbox v-model="aluno.ja_aluno">Já é aluno(a) do projeto</el-checkbox>
+						</el-form-item>
+
+						<el-checkbox v-model="aluno.problema_saude">Tem algum problema de saúde</el-checkbox>
+
+						<el-form-item label="Qual?">
+							<el-input v-model="aluno.problema_saude_qual" :disabled="!aluno.problema_saude"></el-input>
+						</el-form-item>
+
+						<el-checkbox v-model="aluno.medicamento_usa">Faz uso contínuo de medicamento</el-checkbox>
+
+						<el-form-item label="Qual?">
+							<el-input v-model="aluno.medicamento_qual" :disabled="!aluno.medicamento_usa"></el-input>
+						</el-form-item>
+
+						<el-form-item 
+							label="Remédio a tomar em caso de febre"
+							prop="remedio_febre"
+							:rules="{
+								required: true, message: 'Campo não pode estar vazio'
+							}"
+						>
+							<el-input v-model="aluno.remedio_febre"></el-input>
+						</el-form-item>
+
+						<el-form-item 
+							label="Recomendação da família"
+							prop="recomendacao_familia"
+							:rules="{
+								required: true, message: 'Campo não pode estar vazio'
+							}"
+						>
+							<el-input type="textarea" v-model="aluno.recomendacao_familia"></el-input>
+						</el-form-item>
+
+						<el-checkbox v-model="aluno.retorna_sozinho">Retornará sozinho(a) para casa</el-checkbox>
+
+						<el-form-item label="Quem levará a criança para casa?">
+							<el-input v-model="aluno.quem_busca" :disabled="aluno.retorna_sozinho"></el-input>
+						</el-form-item>
+
+						<el-form-item>
+							<el-button icon="el-icon-check" type="primary" @click="submitForm('aluno')">Finalizar</el-button>
+						</el-form-item>
 					</el-form>
 				</el-col>
 			</el-row>
@@ -187,8 +288,39 @@ export default {
 	name: 'AlunoForm',
 	data() {
 		return {
-			aluno: {},
-			responsavel: ['Pai', 'Mãe']
+			aluno: {
+				idade: ''
+			},
+			responsavel: ['Pai', 'Mãe'],
+			tamanho_camisa: ['P', 'M', 'G']
+		}
+	},
+	methods: {
+		submitForm(aluno) {
+			this.$refs[aluno].validate((valid) => {
+				if (valid) {
+					console.log('valid')
+					console.log(this.aluno)
+				} else {
+					console.log('invalid')
+					return false
+				}
+			})
+		},
+		calcAge() {
+			let now = new Date()
+
+			this.aluno.idade = now.getFullYear() - this.aluno.nascimento.getFullYear()
+
+			if (this.aluno.nascimento.getMonth() > now.getMonth()) {
+				this.aluno.idade--
+			}
+
+			if (this.aluno.nascimento.getMonth() == now.getMonth()) {
+				if (this.aluno.nascimento.getDate() > now.getDate()) {
+					this.aluno.idade--
+				}
+			}
 		}
 	}
 }
@@ -196,4 +328,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.form {
+	padding: 20px;
+	border: 1px solid #D8DCE5;
+	border-radius: 10px;
+	background-color: #FCFCFC;
+}
+
+.content {
+    background-color: white;
+}
+
+#header {
+	font-size: 1.5em;
+	color: #5A5E66;
+	font-family: "Helvetica Neue", Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑";
+}
+
+.filler {
+	color: white;
+}
 </style>
