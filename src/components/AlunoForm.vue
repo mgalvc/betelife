@@ -83,6 +83,98 @@
 								</el-form-item>
 							</el-col>
 						</el-row>
+
+						<el-form-item 
+							label="Mora com quem?"
+							prop="mora_com"
+							:rules="{
+								required: true, message: 'Campo não pode estar vazio'
+							}"
+						>
+							<el-input v-model="aluno.mora_com"></el-input>
+						</el-form-item>
+
+						<el-row :gutter="15">
+							<el-col :span="8">
+								<el-form-item 
+								label="Responsável pela inscrição"
+								>
+									<el-select 
+										v-model="aluno.responsavel" 
+										style="width: 100%;"
+										:clearable="false"
+									>
+										<el-option
+											v-for="item in responsavel"
+											:key="item"
+											:label="item"
+											:value="item"
+										></el-option>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :span="16">
+								<el-form-item 
+									label="RG do responsável"
+									prop="responsavel_rg"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.responsavel_rg"></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+
+						<el-row :gutter="15">
+							<el-col :span="12">
+								<el-form-item 
+									label="Profissão do pai"
+									prop="pai_profissao"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.pai_profissao"></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item 
+									label="Profissão da mãe"
+									prop="mae_profissao"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.mae_profissao"></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+
+						<el-row :gutter="15">
+							<el-col :span="12">
+								<el-form-item 
+									label="Religião do pai"
+									prop="pai_religiao"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.pai_religiao"></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item 
+									label="Religião da mãe"
+									prop="mae_religiao"
+									:rules="{
+										required: true, message: 'Campo não pode estar vazio'
+									}"
+								>
+									<el-input v-model="aluno.mae_religiao"></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
 					</el-form>
 				</el-col>
 			</el-row>
@@ -95,7 +187,8 @@ export default {
 	name: 'AlunoForm',
 	data() {
 		return {
-			aluno: {}
+			aluno: {},
+			responsavel: ['Pai', 'Mãe']
 		}
 	}
 }
