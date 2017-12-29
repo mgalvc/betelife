@@ -1,7 +1,7 @@
 <template>
 	<el-container class="content">
 		<el-header>
-			<p id="header">Cadastro de Aluno</p>
+			<p id="header"><b>Cadastro de Aluno</b></p>
 		</el-header>
 
 		<el-main class="main">
@@ -269,7 +269,13 @@
 
 						<el-checkbox v-model="aluno.retorna_sozinho">Retornará sozinho(a) para casa</el-checkbox>
 
-						<el-form-item label="Quem levará a criança para casa?">
+						<el-form-item 
+							label="Quem levará a criança para casa?"
+							prop="quem_busca"
+							:rules="{
+								required: !aluno.retorna_sozinho, message: 'Campo não pode estar vazio'
+							}"
+							>
 							<el-input v-model="aluno.quem_busca" :disabled="aluno.retorna_sozinho"></el-input>
 						</el-form-item>
 

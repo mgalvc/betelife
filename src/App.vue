@@ -18,8 +18,12 @@
 
                 <el-submenu index="3">
                     <template slot="title">Ver Todos</template>
-                    <el-menu-item index="3-1">Voluntários</el-menu-item>
-                    <el-menu-item index="3-2">Alunos</el-menu-item>
+                    <el-menu-item index="3-1">
+                        <router-link to="/voluntarios">Voluntários</router-link>
+                    </el-menu-item>
+                    <el-menu-item index="3-2">
+                        <router-link to="/alunos">Alunos</router-link>
+                    </el-menu-item>
                 </el-submenu>
             </el-menu>
         </div>

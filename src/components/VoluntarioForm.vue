@@ -1,7 +1,7 @@
 <template>
 	<el-container class="content">
 		<el-header>
-			<p id="header">Cadastro de Voluntário</p>
+			<p id="header"><b>Cadastro de Voluntário</b></p>
 		</el-header>
 	
 		<el-main class="main">
@@ -260,6 +260,8 @@
 </template>
 
 <script>
+import { HTTP } from './http-common'
+
 export default {
 	name: 'VoluntarioForm',
 	data() {
@@ -284,7 +286,14 @@ export default {
 			this.$refs[voluntario].validate((valid) => {
 				if (valid) {
 					console.log('valid')
-					console.log(this.voluntario)
+
+					HTTP.post('/volunteers', this.voluntario)
+						.then(response => {
+							console.log(response)
+						})
+						.catch(e => {
+							console.log(e)
+						})
 				} else {
 					console.log('invalid')
 					return false
