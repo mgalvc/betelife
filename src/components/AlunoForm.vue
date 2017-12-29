@@ -284,6 +284,8 @@
 </template>
 
 <script>
+import { HTTP } from './http-common'
+
 export default {
 	name: 'AlunoForm',
 	data() {
@@ -301,6 +303,14 @@ export default {
 				if (valid) {
 					console.log('valid')
 					console.log(this.aluno)
+
+					HTTP.post('/students', this.aluno)
+						.then(response => {
+							console.log(response)
+						})
+						.catch(e => {
+							console.log(e)
+						})
 				} else {
 					console.log('invalid')
 					return false
