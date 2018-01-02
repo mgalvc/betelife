@@ -9,10 +9,28 @@
                 <el-submenu index="2">
                     <template slot="title">Novo</template>
                     <el-menu-item index="2-1"> 
-                        <router-link to="/novo-voluntario">Voluntário</router-link>
+                        <router-link
+                            :to="{
+                                name: 'VoluntarioForm',
+                                params: {
+                                    volunteer: {},
+                                    action: 'post'
+                                }
+                            }">
+                            Voluntário
+                        </router-link>
                     </el-menu-item>
                     <el-menu-item index="2-2">
-                        <router-link to="/novo-aluno">Aluno</router-link>
+                        <router-link
+                            :to="{
+                                name: 'AlunoForm',
+                                params: {
+                                    student: {},
+                                    action: 'post'
+                                }
+                            }">
+                            Aluno
+                        </router-link>
                     </el-menu-item>
                 </el-submenu>
 

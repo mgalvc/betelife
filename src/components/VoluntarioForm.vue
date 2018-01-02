@@ -278,7 +278,8 @@ export default {
 				"Médio Completo",
 				"Superior Incompleto",
 				"Superior Completo"
-			]
+			],
+			submitAction: 'post'
 		}
 	},
 	methods: {
@@ -287,13 +288,23 @@ export default {
 				if (valid) {
 					console.log('valid')
 
-					HTTP.post('/volunteers', this.voluntario)
-						.then(response => {
-							console.log(response)
-						})
-						.catch(e => {
-							console.log(e)
-						})
+					if (this.submitAction == 'post') {
+						HTTP.post('/volunteers', this.voluntario)
+							.then(response => {
+								console.log(response)
+							})
+							.catch(e => {
+								console.log(e)
+							})
+					} else {
+						HTTP.put('/volunteers', this.voluntario)
+							.then(response => {
+								console.log(response)
+							})
+							.catch(e => {
+								console.log(e)
+							})
+					}
 				} else {
 					console.log('invalid')
 					return false
@@ -315,6 +326,11 @@ export default {
 				}
 			}
 		}
+	},
+	created: function() {
+		console.log(this.$route.params)
+		this.voluntario = this.$route.params.volunteer
+		this.submitAction = this.$route.params.action
 	}
 }
 </script>

@@ -75,8 +75,8 @@
 			<b>Quem busca</b>: {{ selected.retorna_sozinho ? 'Retorna sozinho' : selected.quem_busca }}
 
 			<span slot="footer">
-				<el-button plain type="primary" icon="el-icon-edit">Editar</el-button>
-				<el-button plain type="warning" icon="el-icon-delete">Deletar</el-button>
+				<el-button plain type="primary" icon="el-icon-edit" @click="edit">Editar</el-button>
+				<el-button plain type="warning" icon="el-icon-delete" @click="remove">Deletar</el-button>
 			</span>
 		</el-dialog>
 		
@@ -106,19 +106,40 @@ export default {
 				.catch(e => {
 					console.log(e)
 				})
-			this.selected = this.alunos[index]
 			this.showDialog = true
+		},
+		remove() {
+			HTTP.delete('/students', { params: { id: this.selected._id }})
+				.then(response => {
+					console.log(response)
+					this.load()
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		},
+		load() {
+			HTTP.get('/students')
+				.then(response => {
+					this.alunos = response.data.res
+				})
+				.catch(e => {
+					console.log(e)
+				})
+			this.showDialog = false
+		},
+		edit() {
+			this.$router.push({
+				name: 'AlunoForm',
+				params: {
+					student: this.selected,
+					action: 'put'
+				}
+			})
 		}
 	},
 	created: function() {
-		console.log('mounted')
-		HTTP.get('/students')
-			.then(response => {
-				this.alunos = response.data.res
-			})
-			.catch(e => {
-				console.log(e)
-			})
+		this.load()
 	}
 }	
 </script>

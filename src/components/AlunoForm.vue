@@ -300,7 +300,8 @@ export default {
 				idade: ''
 			},
 			responsavel: ['Pai', 'Mãe'],
-			tamanho_camisa: ['P', 'M', 'G']
+			tamanho_camisa: ['P', 'M', 'G'],
+			submitAction: 'post'
 		}
 	},
 	methods: {
@@ -310,13 +311,23 @@ export default {
 					console.log('valid')
 					console.log(this.aluno)
 
-					HTTP.post('/students', this.aluno)
-						.then(response => {
-							console.log(response)
-						})
-						.catch(e => {
-							console.log(e)
-						})
+					if(this.submitAction == 'post') {
+						HTTP.post('/students', this.aluno)
+							.then(response => {
+								console.log(response)
+							})
+							.catch(e => {
+								console.log(e)
+							})
+					} else {
+						HTTP.put('/students', this.aluno)
+							.then(response => {
+								console.log(response)
+							})
+							.catch(e => {
+								console.log(e)
+							})
+					}
 				} else {
 					console.log('invalid')
 					return false
@@ -338,6 +349,11 @@ export default {
 				}
 			}
 		}
+	},
+	created: function() {
+		console.log(this.$route.params)
+		this.aluno = this.$route.params.student
+		this.submitAction = this.$route.params.action
 	}
 }
 </script>
